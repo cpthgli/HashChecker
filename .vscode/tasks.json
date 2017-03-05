@@ -1,0 +1,22 @@
+{
+  "version": "0.1.0",
+  "tasks": [
+    {
+      "taskName": "build",
+      "command": "go",
+      "args": [
+        "build"
+      ],
+      "isShellCommand": true,
+      "isBackground": true
+    },
+    {
+      "taskName": "exec",
+      "command": "./HashChecker",
+      "args": [
+        "HashChecker.go"
+      ],
+      "isShellCommand": true
+    }
+  ]
+}
