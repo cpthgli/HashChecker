@@ -11,6 +11,16 @@
       "isBackground": true
     },
     {
+      "taskName": "run",
+      "command": "go",
+      "args": [
+        "run",
+        "HashChecker.go",
+        "./ROADMAP.md"
+      ],
+      "isShellCommand": true
+    },
+    {
       "taskName": "exec",
       "command": "./HashChecker",
       "args": [
