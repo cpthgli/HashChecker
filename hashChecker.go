@@ -5,7 +5,6 @@ import (
 	"crypto/sha1"
 	"crypto/sha256"
 	"encoding/hex"
-	"fmt"
 	"os"
 
 	"errors"
@@ -34,28 +33,24 @@ func loadConfigPage(mwp *mainWindow) {
 	cAutoCheck.SetChecked(config.Enable)
 	cAutoCheck.OnToggled(func(*ui.Checkbox) {
 		config.Enable = !config.Enable
-		fmt.Printf("%v\nSuccess toggle config.Enable\n", config.Enable)
 	})
 
 	cMd5 := ui.NewCheckbox("MD5")
 	cMd5.SetChecked(config.Md5)
 	cMd5.OnToggled(func(*ui.Checkbox) {
 		config.Md5 = !config.Md5
-		fmt.Printf("%v\nSuccess toggle config.Md5\n", config.Md5)
 	})
 
 	cSha1 := ui.NewCheckbox("SHA1")
 	cSha1.SetChecked(config.Sha1)
 	cSha1.OnToggled(func(*ui.Checkbox) {
 		config.Sha1 = !config.Sha1
-		fmt.Printf("%v\nSuccess toggle config.Sha1\n", config.Sha1)
 	})
 
 	cSha256 := ui.NewCheckbox("SHA256")
 	cSha256.SetChecked(config.Sha256)
 	cSha256.OnToggled(func(*ui.Checkbox) {
 		config.Sha256 = !config.Sha256
-		fmt.Printf("%v\nSuccess toggle config.Sha256\n", config.Sha256)
 	})
 
 	bSave := ui.NewButton("Save")
@@ -157,7 +152,6 @@ func setMainWindow() error {
 	}
 
 	mwp.window.Show()
-	fmt.Println("Success show window")
 	return nil
 }
 func setErrorWindow(err error) {
