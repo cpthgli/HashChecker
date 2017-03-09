@@ -12,11 +12,10 @@
     },
     {
       "taskName": "run",
-      "command": "go",
+      "command": "sh",
       "args": [
-        "run",
-        "HashChecker.go",
-        "./ROADMAP.md"
+        "-c",
+        "go run *.go ./ROADMAP.md"
       ],
       "isShellCommand": true
     },

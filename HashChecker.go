@@ -1,98 +1,26 @@
 package main
 
 import (
-	"bufio"
-	"bytes"
 	"crypto/md5"
 	"crypto/sha1"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"errors"
 
-	"github.com/BurntSushi/toml"
 	"github.com/andlabs/ui"
 )
-
-// Config ...
-type Config struct {
-	AutoCheck AutoCheckConfig
-}
-
-// AutoCheckConfig ...
-type AutoCheckConfig struct {
-	Enable bool
-	Md5    bool
-	Sha1   bool
-	Sha256 bool
-}
 
 type mainWindow struct {
 	window     *ui.Window
 	configPage *ui.Box
 	resultPage *ui.Box
-	config     Config
+	config     *Config
 	fileName   string
 	fileBuf    []byte
-}
-
-// config function
-func getWorkingDir() (string, error) {
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		return "", err
-	}
-	fmt.Printf("%v\nSuccess get working dir\n", dir)
-	return dir, nil
-}
-func isExistConfigFile() (bool, error) {
-	dir, err := getWorkingDir()
-	if err != nil {
-		return false, err
-	}
-	_, err = os.Stat(dir + "/config.toml")
-	if err != nil {
-		fmt.Println("Confing file not exist")
-		return false, nil
-	}
-	fmt.Println("Confing file exist")
-	return true, nil
-}
-func loadConfig(cp *Config) error {
-	dir, err := getWorkingDir()
-	if err != nil {
-		return err
-	}
-	_, err = toml.DecodeFile(dir+"/config.toml", cp)
-	if err != nil {
-		return err
-	}
-	fmt.Println("Success load config")
-	return nil
-}
-func saveConfig(cp *Config) error {
-	var buf bytes.Buffer
-	encoder := toml.NewEncoder(&buf)
-	if err := encoder.Encode(*cp); err != nil {
-		return err
-	}
-	fp, err := os.Create("config.toml")
-	if err != nil {
-		return err
-	}
-	defer fp.Close()
-	writer := bufio.NewWriter(fp)
-	if _, err = writer.WriteString(buf.String()); err != nil {
-		return err
-	}
-	writer.Flush()
-	fmt.Println(buf.String())
-	fmt.Println("Success save config")
-	return nil
 }
 
 // page function
@@ -133,7 +61,7 @@ func loadConfigPage(mwp *mainWindow) {
 
 	bSave := ui.NewButton("Save")
 	bSave.OnClicked(func(*ui.Button) {
-		saveConfig(&mwp.config)
+		save(mwp.config)
 	})
 
 	bCheck := ui.NewButton("Check")
@@ -255,14 +183,8 @@ func setMainWindow() error {
 		return true
 	})
 
-	b, err := isExistConfigFile()
-	if err != nil {
+	if mwp.config, err = load(); err != nil {
 		return err
-	}
-	if b {
-		if err := loadConfig(&mwp.config); err != nil {
-			return err
-		}
 	}
 
 	if mwp.config.AutoCheck.Enable {
