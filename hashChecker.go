@@ -7,7 +7,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"os"
-	"strings"
 
 	"errors"
 
@@ -124,42 +123,6 @@ func loadResultPage(mwp *mainWindow) {
 	mwp.resultPage = box
 	mwp.window.SetChild(mwp.resultPage)
 	mwp.window.SetMargined(true)
-}
-
-// target file function
-func getTargetFilesPath() []string {
-	if paths := os.Getenv("NAUTILUS_SCRIPT_SELECTED_FILE_PATHS"); len(paths) != 0 {
-		fmt.Println(paths)
-		fmt.Printf("%v\nSuccess get files path(getenv)\n", paths)
-		return strings.Split(paths[:len(paths)-1], " ")
-	}
-	if len(os.Args) > 1 {
-		fmt.Println(os.Args)
-		fmt.Printf("%v\nSuccess get files path(os.args)\n", os.Args[1:])
-		return os.Args[1:]
-	}
-	return nil
-}
-func loadTargetFile(path string) ([]byte, error) {
-	fp, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-	defer fp.Close()
-	var b []byte
-	buf := make([]byte, 1024)
-	for {
-		n, err := fp.Read(buf)
-		if n == 0 {
-			break
-		}
-		if err != nil {
-			return nil, err
-		}
-		b = append(b, buf[:n]...)
-	}
-	fmt.Println("Success load target file")
-	return b, nil
 }
 
 // window function
