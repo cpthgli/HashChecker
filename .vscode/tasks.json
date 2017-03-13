@@ -1,31 +1,110 @@
 {
-  "version": "0.1.0",
-  "tasks": [
-    {
-      "taskName": "build",
-      "command": "go",
-      "args": [
-        "build"
-      ],
-      "isShellCommand": true,
-      "isBackground": true
+  "version": "2.0.0",
+  "tasks": [{
+    "taskName": "Server Build",
+    "command": "go",
+    "args": [
+      "build"
+    ],
+    "options": {
+      "cwd": "${workspaceRoot}/server/"
     },
-    {
-      "taskName": "run",
-      "command": "sh",
-      "args": [
-        "-c",
-        "go run *.go ./ROADMAP.md"
-      ],
-      "isShellCommand": true
+    "dependsOn": [
+      "Pug Build All"
+    ]
+  }, {
+    "taskName": "Pug Build",
+    "command": "pug",
+    "args": [
+      "-P",
+      "${file}"
+    ]
+  }, {
+    "taskName": "Pug Build All",
+    "command": "sh",
+    "args": [
+      "-c",
+      "pug *.pug"
+    ],
+    "options": {
+      "cwd": "${workspaceRoot}/server/src/html/"
     },
-    {
-      "taskName": "exec",
-      "command": "./HashChecker",
-      "args": [
-        "HashChecker.go"
-      ],
-      "isShellCommand": true
+    "showOutput": "always"
+  }, {
+    "taskName": "Electron run",
+    "command": "electron",
+    "args": [
+      "."
+    ],
+    "options": {
+      "cwd": "${workspaceRoot}/client/"
+    },
+    "isTestCommand": true,
+    "dependsOn": [
+      "cp gobin",
+      "cp template"
+    ]
+  }, {
+    "taskName": "cp gobin",
+    "command": "cp",
+    "args": [
+      "./server/server",
+      "./client/"
+    ],
+    "dependsOn": [
+      "Server Build"
+    ],
+    "options": {
+      "cwd": "${workspaceRoot}/"
     }
-  ]
+  }, {
+    "taskName": "cp template",
+    "command": "cp",
+    "args": [
+      "-r",
+      "./server/src",
+      "./client/"
+    ]
+  }, {
+    "taskName": "Electron Build",
+    "command": "electron-packager",
+    "args": [
+      ".",
+      "--overwrite"
+    ],
+    "options": {
+      "cwd": "${workspaceRoot}/client/"
+    },
+    "dependsOn": [
+      "Client Folder refresh",
+      "cp gobin",
+      "cp template"
+    ]
+  }, {
+    "taskName": "Client Folder refresh",
+    "command": "rm",
+    "args": [
+      "-f",
+      "config.toml",
+      "debug.log"
+    ],
+    "options": {
+      "cwd": "${workspaceRoot}/client/"
+    }
+  }, {
+    "taskName": "Build",
+    "command": "sh",
+    "args": [
+      "-c",
+      "mv hash-checker-*/resources/app/src hash-checker-*/resources/app/server hash-checker-*"
+    ],
+    "options": {
+      "cwd": "${workspaceRoot}/client/"
+    },
+    "isBuildCommand": true,
+    "echoCommand": true,
+    "dependsOn": [
+      "Electron Build"
+    ]
+  }]
 }

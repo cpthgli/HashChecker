@@ -11,6 +11,8 @@
 * [ ] Execute by dropping the file
 *
 
-## TODOs
+## TODO
 * [ ] Replace GUI with Electron
-* [ ] Improve the appearance of the GUI
+* [ ] Write the LICENSE
+* [ ] Describe the LICENSES of used libraries
+* [x] Improve the appearance of the GUI

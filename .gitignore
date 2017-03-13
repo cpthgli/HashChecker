@@ -1,2 +1,5 @@
-config.toml
-HashChecker
+**/config.toml
+**/hashChecker
+**/debug
+**/node_modules/**
+**/hash-checker-*/**
