@@ -86,7 +86,8 @@
     "args": [
       "-f",
       "config.toml",
-      "debug.log"
+      "debug.log",
+      "src/html/*.pug"
     ],
     "options": {
       "cwd": "${workspaceRoot}/client/"
