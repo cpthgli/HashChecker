@@ -4,7 +4,6 @@
 * [x] MD5 sum
 * [x] SHA-1 sum
 * [x] SHA-256 sum
-* [x] Nautilus script
 * [x] Auto Check
 * [ ] compare clipboard
 * [ ] compare drop sum string
@@ -12,7 +11,7 @@
 *
 
 ## TODO
-* [ ] Replace GUI with Electron
+* [x] Replace GUI with Electron
 * [ ] Write the LICENSE
 * [ ] Describe the LICENSES of used libraries
 * [x] Improve the appearance of the GUI

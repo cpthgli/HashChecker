@@ -14,14 +14,7 @@ type Targets struct {
 	data  [][]byte
 }
 
-func getNautilusTargetsPath() []string {
-	if paths := os.Getenv("NAUTILUS_SCRIPT_SELECTED_FILE_PATHS"); len(paths) > 0 {
-		return strings.Split(paths[:len(paths)-1], " ")
-	}
-	return nil
-}
-
-func getFlagTargetsPath() []string {
+func getTargetPath() []string {
 	paths := strings.Split(flag.Lookup("path").Value.String(), " ")
 	for i, path := range paths {
 		var err error
@@ -31,19 +24,6 @@ func getFlagTargetsPath() []string {
 		}
 	}
 	return paths
-}
-
-func getTargetPath() []string {
-	if flag.Lookup("path").Value.String() == flag.Lookup("path").DefValue {
-		if paths := getNautilusTargetsPath(); len(paths) != 0 {
-			return paths
-		}
-	} else {
-		if paths := getFlagTargetsPath(); len(paths) != 0 {
-			return paths
-		}
-	}
-	return nil
 }
 
 // Load ...
