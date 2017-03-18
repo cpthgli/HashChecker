@@ -194,7 +194,8 @@ func main() {
 	port := flag.Uint("port", 8080, "port number")
 	flag.Parse()
 	if *isLogging {
-		logFp, err := os.OpenFile("./debug.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+		dir := getConfigDirPath()
+		logFp, err := os.OpenFile(dir+"/debug.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 		if err != nil {
 			panic("cannot open debug.log: " + err.Error())
 		}

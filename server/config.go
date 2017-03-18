@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"os"
-	"path/filepath"
 
 	"github.com/BurntSushi/toml"
 )
@@ -22,8 +21,14 @@ type AutoCheckConfig struct {
 	Sha256 bool
 }
 
+func getConfigDirPath() string {
+	home := os.Getenv("HOME")
+	dir := home + "/.config/hash-checker"
+	return dir
+}
+
 func getConfigPath() string {
-	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+	dir := getConfigDirPath()
 	path := dir + "/config.toml"
 	return path
 }
