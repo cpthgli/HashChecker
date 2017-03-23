@@ -14,7 +14,6 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createMainWindow() {
-  server.close();
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: false
@@ -32,7 +31,7 @@ function createMainWindow() {
   }
 
   server.close();
-  var go = require('child_process').execFile('./server', ['-path', process.argv.slice(1).join(' '), '-port', port]);
+  var go = require('child_process').execFile('./server', ['-path', process.argv.slice(1).join(' '), '-port', port, '-log']);
   load();
 
   mainWindow.once('ready-to-show', () => {
